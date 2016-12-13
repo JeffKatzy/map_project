@@ -1,3 +1,7 @@
+// when you think about the reducer managing state - we define state as things in our application that change.
+// It seems like a I lot of what is in here includes data that will not change, so does not need to be represented in the store, or reducer, 
+// and instead can just be referenced in lib, etc.
+
 const defaultState = {
   user: {
     position: {
