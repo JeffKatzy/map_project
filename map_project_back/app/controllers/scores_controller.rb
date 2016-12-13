@@ -1,13 +1,21 @@
 class ScoresController < ApplicationController
   def index
+#      move this into a before_action in the application_controller.
     user_id = Auth.decode(params["jwt"])["user_id"]
+#     and this is always checking if the user is logged in, so should have a before_action :authenticate
+#     which calls logged_in?  and logged_in calls !!current_user and current_user returns User.find(Auth.decode...)
+    
     if user_id
       user = User.find(user_id)
       users = User.all
+#       lines zombie_count and human_count belongs 
       zombie_count = users.select {|user| user.zombie == true}.count
       human_count = users.select {|user| user.zombie == false}.count
 
       human_scores = User.order(days_survived: :desc).limit(10)
+#       Move this into a method called User.scores
+      
+#       Lines below this should be moved into a view object.
       human_scores_json = human_scores.each_with_object([]) do |user, array|
         array << {
           username: user.username,
